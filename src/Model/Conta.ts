@@ -88,7 +88,7 @@ export class Conta {
         tipo = "Conta Poupanca";
         break;
       default:
-        tipo = "Tipo invalido!";
+        tipo = "Conta nao encontrada!";
     }
 
     console.log("********************************************************");
