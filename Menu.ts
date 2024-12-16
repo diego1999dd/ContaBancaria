@@ -5,7 +5,15 @@ import { ContaPoupanca } from "./src/Model/ContaPoupanca";
 import { ContaController } from "./src/controller/ContaController";
 
 export function main() {
-  let opcao, numero, agencia, tipo, saldo, limite, aniversario: number;
+  let opcao,
+    numero,
+    agencia,
+    tipo,
+    saldo,
+    limite,
+    aniversario,
+    numeroDestino,
+    valor: number;
   let titular: string;
   const tipoContas = ["Conta Corrente", "Conta Poupanca"];
 
@@ -45,15 +53,15 @@ export function main() {
   while (true) {
     menu();
 
-    opcao = readlinesync.questionInt("Digite a opcao desejada:");
-    if (opcao === 9) {
+    opcao = readlinesync.questionInt(colors.fg.whitestrong + "Digite a opcao desejada:" + colors.reset);
+    if (opcao === 0) {
       about();
       process.exit(0);
     }
 
     switch (opcao) {
       case 1:
-        console.log("\n\nCriar Conta\n\n", colors.reset);
+        console.log("\n\nCriar Conta\n\n");
 
         console.log("Digite o Numero da Agencia: ");
         agencia = readlinesync.questionInt("");
@@ -107,7 +115,9 @@ export function main() {
         keyPress();
         break;
       case 3:
-        console.log("\n\nConsultar dados da Conta - por número\n\n");
+        console.log(
+          "\n\nConsultar dados da Conta - por número\n\n"
+        );
 
         console.log("Digite o numero da Conta:");
         numero = readlinesync.questionInt("");
@@ -175,18 +185,55 @@ export function main() {
         break;
       case 6:
         console.log("\n\nSaque\n\n");
+
+        console.log("Digite o numero da Conta:");
+        numero = readlinesync.questionInt("");
+
+        console.log("Digite o valor do Saque:");
+        valor = readlinesync.questionFloat("");
+
+        contas.sacar(numero, valor);
+
         keyPress();
         break;
       case 7:
         console.log("\n\nDepósito\n\n");
+
+        console.log("Digite o numero da Conta:");
+        numero = readlinesync.questionInt("");
+
+        console.log("Digite o valor do Deposito:");
+        valor = readlinesync.questionFloat("");
+
+        contas.depositar(numero, valor);
         keyPress();
         break;
       case 8:
-        console.log("\n\nDepósito\n\n");
+        console.log(
+          "\n\nTransferencia entre Contas\n\n"
+        );
+
+        console.log("Digite o numero da Conta de origem:");
+        numero = readlinesync.questionInt("");
+
+        console.log("Digite o numero da conta de destino:");
+        numeroDestino = readlinesync.questionFloat("");
+
+        console.log("Digite o valor de Transferencia:");
+        valor = readlinesync.questionFloat("");
+
+        contas.transferir(numero, numeroDestino, valor);
+        keyPress();
+        break;
+      case 9:
+        console.log("\n\nConsulta Titular\n\n");
+        console.log("\nDigite o nome do titular: ");
+        titular = readlinesync.question("");
+        contas.procurarPorTitular(titular);
         keyPress();
         break;
       default:
-        console.log("\nOpção Inválida!\n");
+        console.log(colors.fg.whitestrong, "\nOpção Inválida!\n");
         keyPress();
         break;
     }
@@ -194,29 +241,61 @@ export function main() {
 }
 
 function menu(): void {
-  console.log(colors.fg.white);
+  // prettier-ignore-start
+  console.log(colors.fg.whitestrong);
   console.log("##########################################################");
-  console.log("                     BANCO DOS GAMERS                     ");
-  console.log("##########################################################");
-  console.log("                 1 - Criar conta                          ");
-  console.log("                 2 - Listar todas as Contas               ");
-  console.log("                 3 - Buscar Conta por numero              ");
-  console.log("                 4 - Atualizar Dados da Conta             ");
-  console.log("                 5 - Apagar a Conta                       ");
-  console.log("                 6 - Sacar                                ");
-  console.log("                 7 - Depositar                            ");
-  console.log("                 8 - Transferir valores entre Contas      ");
-  console.log("                 9 - Sair                                 ");
-  console.log("##########################################################");
+  console.log(
+    colors.fg.bluestrong +
+      "               BANCO DOS GAMERS - THE PLAY BANK           " +
+      colors.reset
+  );
+  console.log(
+    colors.fg.whitestrong +
+      "##########################################################" +
+      colors.reset
+  );
+  console.log("                                                          ");
+  console.log(colors.fg.redstrong + "                1" + colors.fg.white + " - Criar conta                           " + colors.reset);
+  console.log(colors.fg.redstrong + "                2" + colors.fg.white + " - Listar todas as Contas                " + colors.reset);
+  console.log(colors.fg.redstrong + "                3" + colors.fg.white + " - Buscar Conta por numero               " + colors.reset);
+  console.log(colors.fg.redstrong + "                4" + colors.fg.white + " - Atualizar Dados da Conta              " + colors.reset);
+  console.log(colors.fg.redstrong + "                5" + colors.fg.white + " - Apagar a Conta                        " + colors.reset);
+  console.log(colors.fg.redstrong + "                6" + colors.fg.white + " - Sacar                                 " + colors.reset);
+  console.log(colors.fg.redstrong + "                7" + colors.fg.white + " - Depositar                             " + colors.reset);
+  console.log(colors.fg.redstrong + "                8" + colors.fg.white + " - Transferir valores entre Contas       " + colors.reset);
+  console.log(colors.fg.redstrong + "                9" + colors.fg.white + " - Buscar Conta por titular              " + colors.reset);
+  console.log(colors.fg.redstrong + "                0" + colors.fg.white + " - Sair                                  " + colors.reset);
+
+  console.log("                                                          ");
+  console.log(
+    colors.fg.whitestrong +
+      "##########################################################" +
+      colors.reset
+  );
   console.log(colors.reset);
 }
-
+// prettier-ignore-end
 function about() {
-  console.log("\n*****************************************************");
-  console.log("Projeto Desenvolvido por: Diego.");
-  console.log("Generation Brasil - diegon@genstudents.org");
-  console.log("github.com/diego1999dd");
-  console.log("\n*****************************************************");
+  console.log(
+    colors.fg.green +
+      "\n*****************************************************" +
+      colors.reset
+  );
+  console.log(
+    colors.fg.whitestrong + "Projeto Desenvolvido por: Diego." + colors.reset
+  );
+  console.log(
+    colors.fg.whitestrong +
+      "Generation Brasil - diegon@genstudents.org" +
+      colors.reset
+  );
+  console.log(colors.fg.whitestrong + "github.com/diego1999dd" + colors.reset);
+
+  console.log(
+    colors.fg.green +
+      "\n*****************************************************" +
+      colors.reset
+  );
 }
 
 function keyPress(): void {
