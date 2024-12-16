@@ -11,11 +11,8 @@ export class ContaController implements ContaRepository {
   procurarPorNumero(numero: number): void {
     const buscaConta = this.buscarNoArray(numero);
 
-    if (buscaConta !== null) {
-      buscaConta.visualizar();
-    } else {
-      console.log("\nConta não encontrada!");
-    }
+    if (buscaConta !== null) buscaConta.visualizar();
+    else console.log("\nConta não Encontrada!");
   }
   listarTodas(): void {
     for (let conta of this.listaContas) conta.visualizar();
