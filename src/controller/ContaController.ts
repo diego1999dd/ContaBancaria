@@ -29,8 +29,9 @@ export class ContaController implements ContaRepository {
 
     if (buscaConta !== null) {
       this.listaContas[this.listaContas.indexOf(buscaConta)] = conta;
+      console.log("A Conta foi atualizada com sucesso!");
     } else {
-      console.log("\nA Conta foi atualizada com sucesso!");
+      console.log("\nConta não Encontrada!");
     }
   }
   deletar(numero: number): void {
